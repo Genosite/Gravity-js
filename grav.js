@@ -140,6 +140,7 @@
         }
       }
     }
+    context.globalAlpha = 0.3;
     for (var i = 0; i < A_expl.length; i++)
     {
      if (A_expl[i])
@@ -154,7 +155,7 @@
         delete A_expl[i];
     }
   }
-
+  context.globalAlpha = 1;
   context.fillStyle = "#FFFFFF";
   for (var i = 0; i < nb_bps; i++)
   {
@@ -178,16 +179,19 @@ canvas.height = document.body.scrollHeight;
 console.log(canvas.width);
 context = canvas.getContext("2d");
 
-canvas.addEventListener("click", function(e) {
-  tmp = new g_ball;
-  tmp.m = Math.floor(Math.random() * 10) + 2;
-  tmp.r = tmp.m / 2;
-  tmp.x = e.clientX;
-  tmp.y = e.clientY;
-  tmp.vx = 0;
-  tmp.vy = 0;
-  A_ball.push(tmp);
-  nb_ball++;
+canvas.addEventListener("mousemove", function(e) {
+  if (e.which)
+  {
+    tmp = new g_ball;
+    tmp.m = Math.floor(Math.random() * 10) + 2;
+    tmp.r = tmp.m / 2;
+    tmp.x = e.clientX;
+    tmp.y = e.clientY;
+    tmp.vx = 0;
+    tmp.vy = 0;
+    A_ball.push(tmp);
+    nb_ball++;
+  }
 });
 
 document.addEventListener("keypress", function(e) {
