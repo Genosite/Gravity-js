@@ -16,6 +16,8 @@ var World = function()
 World.prototype.init = function() {
 
   this.canvas = document.getElementById("game");
+  this.canvas.width = document.body.clientWidth;
+  this.canvas.height = document.body.scrollHeight;
   this.context = this.canvas.getContext("2d");
 
   for (var i = 0; i < 3; i++)
