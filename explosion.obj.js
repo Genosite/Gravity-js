@@ -4,4 +4,5 @@ var Explosion = function () {
 
 Explision.prototype.run = function() {
   this.r = this.r - 1;
+  return true;
 };

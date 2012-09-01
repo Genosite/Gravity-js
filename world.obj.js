@@ -7,13 +7,17 @@ var World = function()
   };
   this.debug = false;
   this.pause = false;
-  this.fpsMax = 30;
-  this.g = 9.8;
+  this.fpsMax = 25;
+  this.g = 3;
   this.canvas = "";
   this.context = "";
 }
 
 World.prototype.init = function() {
+
+  var _this;
+
+  _this = this;
 
   this.canvas = document.getElementById("game");
   this.canvas.width = document.body.clientWidth;
@@ -41,6 +45,20 @@ World.prototype.init = function() {
     );
     this.entities.asteroid.push(tmp);
   }
+
+  this.canvas.addEventListener("mousemove", function(e) {
+    if (e.which)
+    {
+      var tmp = new Asteroid(
+        e.clientX
+      , e.clientY
+      , Math.floor(Math.random() * 10) + 2
+      , "#ff0"
+      );
+      _this.entities.asteroid.push(tmp);
+    }
+  });
+
   this.loop();
 }
 
@@ -57,10 +75,6 @@ World.prototype.loop = function() {
     elem.draw(_this.context);
   })
   this.entities.planet.forEach(function(elem, index) {
-    elem.draw(_this.context);
-  })
-  this.entities.explosion.forEach(function(elem, index) {
-    elem.run(_this);
     elem.draw(_this.context);
   })
   setTimeout(function() {
