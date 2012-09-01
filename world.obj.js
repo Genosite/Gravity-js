@@ -8,7 +8,7 @@ var World = function()
   this.debug = false;
   this.pause = false;
   this.fpsMax = 25;
-  this.g = 3;
+  this.g = 1;
   this.canvas = "";
   this.context = "";
 }
@@ -24,7 +24,7 @@ World.prototype.init = function() {
   this.canvas.height = document.body.scrollHeight;
   this.context = this.canvas.getContext("2d");
 
-  for (var i = 0; i < 3; i++)
+  for (var i = 0; i < 5; i++)
   {
     var tmp = new Planet(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100

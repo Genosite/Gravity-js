@@ -19,7 +19,7 @@ Asteroid.prototype.run = function(world)
 
   world.entities.asteroid.forEach(function(elem, index) {
     vdist = Utils.dist(_this, elem);
-    if (vdist == 0 || vdist > 10)
+    if (vdist == 0 || vdist > _this.r + elem.r)
       return false;
     pen = vdist - (_this.r + elem.r);
     if (pen < 0)
