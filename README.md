@@ -1,4 +1,5 @@
 Gravity-js
 ==========
 
-http://genosite.github.com/Gravity-js/
+Demo : http://genosite.github.com/Gravity-js/
+
