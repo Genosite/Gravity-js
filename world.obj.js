@@ -11,6 +11,7 @@ var World = function()
   this.g = 1;
   this.canvas = "";
   this.context = "";
+  this.mousedown = false;
 }
 
 World.prototype.init = function() {
@@ -20,8 +21,8 @@ World.prototype.init = function() {
   _this = this;
 
   this.canvas = document.getElementById("game");
-  this.canvas.width = document.body.clientWidth;
-  this.canvas.height = document.body.scrollHeight;
+  this.canvas.width = document.documentElement.clientWidth;
+  this.canvas.height = document.documentElement.clientHeight;
   this.context = this.canvas.getContext("2d");
 
   for (var i = 0; i < 5; i++)
@@ -45,9 +46,14 @@ World.prototype.init = function() {
     );
     this.entities.asteroid.push(tmp);
   }
-
+  this.canvas.addEventListener("mousedown", function(e) {
+    _this.mousedown = true;
+  });
+  this.canvas.addEventListener("mouseup", function(e) {
+    _this.mousedown = false;
+  });
   this.canvas.addEventListener("mousemove", function(e) {
-    if (e.which)
+    if (_this.mousedown)
     {
       var tmp = new Asteroid(
         e.clientX
