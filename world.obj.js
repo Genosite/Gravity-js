@@ -25,7 +25,7 @@ World.prototype.init = function() {
   this.canvas.height = document.documentElement.clientHeight;
   this.context = this.canvas.getContext("2d");
 
-  for (var i = 0; i < 3; i++)
+  for (var i = 0; i < 5; i++)
   {
     var tmp = new Planet(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
@@ -36,7 +36,18 @@ World.prototype.init = function() {
     this.entities.planet.push(tmp);
   }
 
-  for (var i = 0; i < 10; i++)
+  for (var i = 0; i < 5; i++)
+  {
+    var tmp = new Planet(
+        Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
+      , Math.floor(Math.random() * this.canvas.height) % (this.canvas.height - 200) + 100
+      , Math.floor(Math.random() * -100) - 20
+      , "#f0f"
+    );
+    this.entities.planet.push(tmp);
+  }
+
+  for (var i = 0; i < 50; i++)
   {
      var tmp = new Asteroid(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
