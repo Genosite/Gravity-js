@@ -6,7 +6,9 @@ var Asteroid = function(x, y, m, color) {
   this.sin = NaN;
 }
 
-Asteroid.prototype = Entity.prototype;
+for (var element in Entity.prototype ) {
+  Asteroid.prototype[element] = Entity.prototype[element];
+}
 
 Asteroid.prototype.run = function(world)
 {
@@ -17,9 +19,12 @@ Asteroid.prototype.run = function(world)
   if (typeof world != "object" || !(world instanceof World) || world.pause)
     return false;
 
-  len = world.entities.asteroid.length;
-  elem = world.entities.asteroid;
-  for (var i = 0; i < len; i = i + 1) {
+
+  len = world.entities.length;
+  elem = world.entities
+  for (var i = 0; i < len; i++) {
+    if (elem[i] instanceof Planet)
+      continue;
     vdist = Utils.dist(_this, elem[i]);
     if (vdist == 0 || vdist >= _this.r + elem[i].r)
       continue;
@@ -39,10 +44,9 @@ Asteroid.prototype.run = function(world)
     }
   }
 
-  len = world.entities.planet.length;
-  elem = world.entities.planet;
-  for (var i = 0; i < len; i++)
-  {
+  for (var i = 0; i < len; i++) {
+    if (elem[i] instanceof Asteroid)
+      continue;
     vdist = Utils.dist(_this, elem[i]);
     if (vdist == 0)
       continue;

@@ -2,7 +2,9 @@ Planet = function(x, y, m, color) {
   Entity.call(this, x, y, m, color);
 }
 
-Planet.prototype = Entity.prototype;
+for (var element in Entity.prototype ) {
+  Planet.prototype[element] = Entity.prototype[element];
+}
 
 Planet.prototype.run = function() {
   return true;
