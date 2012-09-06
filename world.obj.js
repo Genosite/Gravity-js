@@ -25,6 +25,44 @@ World.prototype.init = function() {
   this.canvas.height = document.documentElement.clientHeight;
   this.context = this.canvas.getContext("2d");
 
+  // Events handlers
+
+  // disable touchmove default behavior for scrolling
+  document.body.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+  }, false);
+
+  var mouseUp   = function(e) { _this.mousedown = false; };
+  var mouseDown = function(e) { _this.mousedown = true; };
+  var mouseMove = function(e) {
+    if (_this.mousedown)
+    {
+      var tmp = new Asteroid(
+        e.clientX
+      , e.clientY
+      , Math.floor(Math.random() * 10) + 2
+      , "#ff0"
+      );
+      _this.entities.asteroid.push(tmp);
+    }
+  }
+  var touchMove = function(e) {
+    if (_this.mousedown)
+    {
+      // for each touch events (for each finger at the same time)
+      for (var i = 0; i < event.touches.length; i++) {
+        var tmp = new Asteroid(
+          e.touches[i].pageX
+        , e.touches[i].pageY
+        , Math.floor(Math.random() * 10) + 2
+        , "#ff0"
+        );
+        _this.entities.asteroid.push(tmp);
+      }
+    }
+  }
+
+  // Generating planets
   for (var i = 0; i < 5; i++)
   {
     var tmp = new Planet(
@@ -47,6 +85,7 @@ World.prototype.init = function() {
     this.entities.planet.push(tmp);
   }
 
+  // Generating asteroids
   for (var i = 0; i < 50; i++)
   {
      var tmp = new Asteroid(
@@ -57,24 +96,13 @@ World.prototype.init = function() {
     );
     this.entities.asteroid.push(tmp);
   }
-  this.canvas.addEventListener("mousedown", function(e) {
-    _this.mousedown = true;
-  });
-  this.canvas.addEventListener("mouseup", function(e) {
-    _this.mousedown = false;
-  });
-  this.canvas.addEventListener("mousemove", function(e) {
-    if (_this.mousedown)
-    {
-      var tmp = new Asteroid(
-        e.clientX
-      , e.clientY
-      , Math.floor(Math.random() * 10) + 2
-      , "#ff0"
-      );
-      _this.entities.asteroid.push(tmp);
-    }
-  });
+
+  this.canvas.addEventListener("mousedown", mouseDown);
+  this.canvas.addEventListener("mouseup", mouseUp);
+  this.canvas.addEventListener("mousemove", mouseMove);  
+  this.canvas.addEventListener("touchstart", mouseDown);
+  this.canvas.addEventListener("touchend", mouseUp);
+  this.canvas.addEventListener("touchmove", touchMove);
 
   this.loop();
 }
