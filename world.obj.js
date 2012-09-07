@@ -1,10 +1,6 @@
 var World = function()
 {
-  this.entities = {
-      asteroid : []
-    , planet : []
-    , explosion : []
-  };
+  this.entities = [ ];
   this.debug = false;
   this.pause = false;
   this.fpsMax = 25;
@@ -43,7 +39,7 @@ World.prototype.init = function() {
       , Math.floor(Math.random() * 10) + 2
       , "#ff0"
       );
-      _this.entities.asteroid.push(tmp);
+      _this.entities.push(tmp);
     }
   }
   var touchMove = function(e) {
@@ -57,7 +53,7 @@ World.prototype.init = function() {
         , Math.floor(Math.random() * 10) + 2
         , "#ff0"
         );
-        _this.entities.asteroid.push(tmp);
+        _this.entities.push(tmp);
       }
     }
   }
@@ -71,7 +67,7 @@ World.prototype.init = function() {
       , Math.floor(Math.random() * 100) + 20
       , "#f00"
     );
-    this.entities.planet.push(tmp);
+    this.entities.push(tmp);
   }
 
   for (var i = 0; i < 5; i++)
@@ -82,7 +78,7 @@ World.prototype.init = function() {
       , Math.floor(Math.random() * -100) - 20
       , "#f0f"
     );
-    this.entities.planet.push(tmp);
+    this.entities.push(tmp);
   }
 
   // Generating asteroids
@@ -94,12 +90,12 @@ World.prototype.init = function() {
       , Math.floor(Math.random() * 10) + 2
       , "#ff0"
     );
-    this.entities.asteroid.push(tmp);
+    this.entities.push(tmp);
   }
 
   this.canvas.addEventListener("mousedown", mouseDown);
   this.canvas.addEventListener("mouseup", mouseUp);
-  this.canvas.addEventListener("mousemove", mouseMove);  
+  this.canvas.addEventListener("mousemove", mouseMove);
   this.canvas.addEventListener("touchstart", mouseDown);
   this.canvas.addEventListener("touchend", mouseUp);
   this.canvas.addEventListener("touchmove", touchMove);
@@ -115,13 +111,10 @@ World.prototype.loop = function() {
   this.context.fillStyle = "#000";
   this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-  this.entities.asteroid.forEach(function(elem, index) {
+  this.entities.forEach(function(elem, index) {
     elem.run(_this);
     elem.draw(_this.context);
-  })
-  this.entities.planet.forEach(function(elem, index) {
-    elem.draw(_this.context);
-  })
+  });
   setTimeout(function() {
       _this.loop();
     }, 1000 / this.fpsMax
