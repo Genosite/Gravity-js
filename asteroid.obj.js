@@ -19,7 +19,6 @@ Asteroid.prototype.run = function(world)
   if (typeof world != "object" || !(world instanceof World) || world.pause)
     return false;
 
-
   len = world.entities.length;
   elem = world.entities
   for (var i = 0; i < len; i++) {
