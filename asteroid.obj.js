@@ -19,15 +19,14 @@ Asteroid.prototype.run = function(world)
   if (typeof world != "object" || !(world instanceof World) || world.pause)
     return false;
 
-  len = world.entities.length;
   elem = world.entities
-  for (var i = 0; i < len; i++) {
+  for (var i = 0; i < world.entitiesLength; i++) {
     if (elem[i] instanceof Planet)
       continue;
     vdist = Utils.dist(_this, elem[i]);
-    if (vdist == 0 || vdist >= _this.r + elem[i].r)
+    if (vdist == 0 || vdist >= _this.m / 2 + elem[i].m / 2)
       continue;
-    pen = vdist - (_this.r + elem[i].r);
+    pen = vdist - (elem[i].m / 2 + elem[i].m / 2);
     if (pen < 0)
     {
       d_x = -_this.x + elem[i].x;
@@ -43,7 +42,7 @@ Asteroid.prototype.run = function(world)
     }
   }
 
-  for (var i = 0; i < len; i++) {
+  for (var i = 0; i < world.entitiesLength; i++) {
     if (elem[i] instanceof Asteroid)
       continue;
     vdist = Utils.dist(_this, elem[i]);
@@ -51,14 +50,14 @@ Asteroid.prototype.run = function(world)
       continue;
     d_x = -_this.x + elem[i].x;
     d_y = -_this.y + elem[i].y;
-    tan = d_x / d_y;
+    //tan = d_x / d_y;
     cos = d_x / vdist;
     sin = d_y / vdist;
     force_grav = world.g * (_this.m * elem[i].m) / Math.pow(vdist, 2);
 
     _this.vx = _this.vx + cos * force_grav;
     _this.vy = _this.vy + sin * force_grav;
-    pen = vdist - (_this.r + elem[i].r);
+    pen = vdist - (_this.m / 2 + elem[i].m / 2);
     if (pen < 0)
     {
       _this.x = _this.x + cos * pen;

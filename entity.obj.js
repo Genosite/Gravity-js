@@ -6,7 +6,7 @@ var Entity =  function(x, y, m, color) {
   this.onclick = function() { };
 }
 
-Entity.prototype.draw = function(context) {
+Entity.prototype.draw = function(context, image) {
   if (typeof context != "object" || !(context instanceof CanvasRenderingContext2D))
     return false;
 
