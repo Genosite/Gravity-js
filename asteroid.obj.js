@@ -19,8 +19,10 @@ Asteroid.prototype.run = function(world)
   if (typeof world != "object" || !(world instanceof World) || world.pause)
     return false;
 
-  len = world.entities.length;
-  elem = world.entities
+  node_cnt = world.quadtree.retrieve(this);
+
+  len = node_cnt.length;
+  elem = node_cnt;
   for (var i = 0; i < len; i++) {
     if (elem[i] instanceof Planet)
       continue;
@@ -43,6 +45,9 @@ Asteroid.prototype.run = function(world)
     }
   }
 
+/*
+  len = world.entities.length;
+  elem = world.entities;
   for (var i = 0; i < len; i++) {
     if (elem[i] instanceof Asteroid)
       continue;
@@ -69,6 +74,7 @@ Asteroid.prototype.run = function(world)
       _this.vy = _this.vy * 0.8;
     }
   }
+  */
 
   d_x = -this.x + (this.x + this.vx);
   d_y = -this.y + (this.y + this.vy);

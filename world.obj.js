@@ -8,6 +8,7 @@ var World = function()
   this.canvas = "";
   this.context = "";
   this.mousedown = false;
+  this.quadtree = null;
 }
 
 World.prototype.init = function() {
@@ -19,6 +20,15 @@ World.prototype.init = function() {
   this.canvas = document.getElementById("game");
   this.canvas.width = document.documentElement.clientWidth;
   this.canvas.height = document.documentElement.clientHeight;
+
+  var bounds = {
+    x: 0,
+    y: 0,
+    width: this.canvas.width,
+    height: this.canvas.height
+  }
+
+  this.quadtree = new QuadTree(bounds, true);
   this.context = this.canvas.getContext("2d");
 
   // Events handlers
@@ -40,6 +50,7 @@ World.prototype.init = function() {
       , "#ff0"
       );
       _this.entities.push(tmp);
+      _this.quadtree.insert(tmp);
     }
   }
   var touchMove = function(e) {
@@ -54,6 +65,7 @@ World.prototype.init = function() {
         , "#ff0"
         );
         _this.entities.push(tmp);
+        _this.quadtree.insert(tmp);
       }
     }
   }
@@ -68,6 +80,7 @@ World.prototype.init = function() {
       , "#f00"
     );
     this.entities.push(tmp);
+    _this.quadtree.insert(tmp);
   }
 
   for (var i = 0; i < 5; i++)
@@ -79,6 +92,7 @@ World.prototype.init = function() {
       , "#f0f"
     );
     this.entities.push(tmp);
+    _this.quadtree.insert(tmp);
   }
 
   // Generating asteroids
@@ -91,6 +105,7 @@ World.prototype.init = function() {
       , "#ff0"
     );
     this.entities.push(tmp);
+    _this.quadtree.insert(tmp);
   }
 
   this.canvas.addEventListener("mousedown", mouseDown);
@@ -112,6 +127,8 @@ World.prototype.loop = function() {
   this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
   this.entities.forEach(function(elem, index) {
+    _this.quadtree.clear();
+    _this.quadtree.insert(_this.entities);
     elem.run(_this);
     elem.draw(_this.context);
   });
