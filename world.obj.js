@@ -3,7 +3,7 @@ var World = function()
   this.entities = [ ];
   this.debug = false;
   this.pause = false;
-  this.fpsMax = 25;
+  this.fpsMax = 60;
   this.g = 1;
   this.canvas = "";
   this.context = "";
@@ -45,16 +45,13 @@ World.prototype.init = function() {
   var touchMove = function(e) {
     if (_this.mousedown)
     {
-      // for each touch events (for each finger at the same time)
-      for (var i = 0; i < event.touches.length; i++) {
-        var tmp = new Asteroid(
-          e.touches[i].pageX
-        , e.touches[i].pageY
-        , Math.floor(Math.random() * 10) + 2
-        , "#ff0"
-        );
-        _this.entities.push(tmp);
-      }
+      var tmp = new Asteroid(
+        e.touches[i].pageX
+      , e.touches[i].pageY
+      , Math.floor(Math.random() * 10) + 2
+      , "#ff0"
+      );
+      _this.entities.push(tmp);
     }
   }
 
@@ -87,7 +84,7 @@ World.prototype.init = function() {
      var tmp = new Asteroid(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
       , Math.floor(Math.random() * this.canvas.height) % (this.canvas.height - 200) + 100
-      , Math.floor(Math.random() * 10) + 2
+      , Math.floor(Math.random() * 25) + 10
       , "#ff0"
     );
     this.entities.push(tmp);
@@ -112,8 +109,11 @@ World.prototype.loop = function() {
   this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
   this.entities.forEach(function(elem, index) {
-    elem.run(_this);
-    elem.draw(_this.context);
+    if (elem != undefined)
+    {
+      elem.run(_this); 
+      elem.draw(_this.context);
+    }
   });
   setTimeout(function() {
       _this.loop();

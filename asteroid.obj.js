@@ -12,43 +12,40 @@ for (var element in Entity.prototype ) {
 
 Asteroid.prototype.run = function(world)
 {
-  var vdist, d_x, d_y, tan, cos, sin, force_grav, _this, len, elem;
+  var vdist, d_x, d_y, tan, cos, sin, force_grav, _this, len, elem, a
 
-  _this = this;
+  _this = this
 
   if (typeof world != "object" || !(world instanceof World) || world.pause)
-    return false;
+    return false
 
-  len = world.entities.length;
+  len = world.entities.length
   elem = world.entities
   for (var i = 0; i < len; i++) {
-    if (elem[i] instanceof Planet)
-      continue;
-    vdist = Utils.dist(_this, elem[i]);
-    if (vdist == 0 || vdist >= _this.r + elem[i].r)
-      continue;
-    pen = vdist - (_this.r + elem[i].r);
-    if (pen < 0)
-    {
-      d_x = -_this.x + elem[i].x;
-      d_y = -_this.y + elem[i].y;
-      cos = d_x / vdist;
-      sin = d_y / vdist;
-      _this.x = _this.x + cos * pen;
-      _this.y = _this.y + sin * pen;
-      _this.vx = _this.vx + cos * pen;
-      _this.vy = _this.vy + sin * pen;
-      _this.vx = _this.vx * 0.6;
-      _this.vy = _this.vy * 0.6;
-    }
+    if (elem[i] == undefined || elem[i] instanceof Planet)
+      continue
+    a = _this.r + elem[i].r
+    if (elem[i].x < 0 || elem[i].y < 0 || elem[i].x > 2000 || elem[i].y > 2000)
+      {
+        elem[i] = undefined
+        continue
+      }
+    vdist = Utils.dist(_this, elem[i])
+    if (vdist == 0 || vdist >= a)
+      continue
+    pen = vdist - a
+    cos = (-_this.x + elem[i].x) / vdist
+    sin = (-_this.y + elem[i].y) / vdist
+    _this.vx = _this.vx * 0.7 + (cos * pen)
+    _this.vy = _this.vy * 0.7 + (sin * pen)
   }
 
   for (var i = 0; i < len; i++) {
-    if (elem[i] instanceof Asteroid)
-      continue;
-    vdist = Utils.dist(_this, elem[i]);
+    if (elem[i] == undefined || elem[i] instanceof Asteroid)
+      continue
+    vdist = Utils.dist(_this, elem[i])
     if (vdist == 0)
-      continue;
+      continue
     d_x = -_this.x + elem[i].x;
     d_y = -_this.y + elem[i].y;
     tan = d_x / d_y;
@@ -61,12 +58,8 @@ Asteroid.prototype.run = function(world)
     pen = vdist - (_this.r + elem[i].r);
     if (pen < 0)
     {
-      _this.x = _this.x + cos * pen;
-      _this.y = _this.y + sin * pen;
-      _this.vx = _this.vx + cos * pen;
-      _this.vy = _this.vy + sin * pen;
-      _this.vx = _this.vx * 0.8;
-      _this.vy = _this.vy * 0.8;
+      _this.vx = _this.vx * 0.8 + (cos * pen);
+      _this.vy = _this.vy * 0.8 + (sin * pen);
     }
   }
 
