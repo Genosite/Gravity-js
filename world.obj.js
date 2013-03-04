@@ -69,8 +69,8 @@ World.prototype.init = function() {
   var touchMove = function(e) {
     if (_this.mousedown && n_tmp)
     {
-      n_tmp.xp = e.clientX
-      n_tmp.yp = e.clientY
+      n_tmp.xp = e.touches[0].pageX
+      n_tmp.yp = e.touches[0].pageY
     }
   }
 
