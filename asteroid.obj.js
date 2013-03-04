@@ -36,8 +36,8 @@ Asteroid.prototype.run = function(world)
     pen = vdist - a
     cos = (-_this.x + elem[i].x) / vdist
     sin = (-_this.y + elem[i].y) / vdist
-    _this.vx = _this.vx * 0.7 + (cos * pen)
-    _this.vy = _this.vy * 0.7 + (sin * pen)
+    _this.vx = _this.vx * 0.5 + cos * pen 
+    _this.vy = _this.vy * 0.5 + sin * pen
   }
 
   for (var i = 0; i < len; i++) {
@@ -48,7 +48,6 @@ Asteroid.prototype.run = function(world)
       continue
     d_x = -_this.x + elem[i].x;
     d_y = -_this.y + elem[i].y;
-    tan = d_x / d_y;
     cos = d_x / vdist;
     sin = d_y / vdist;
     force_grav = world.g * (_this.m * elem[i].m) / Math.pow(vdist, 2);

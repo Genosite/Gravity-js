@@ -10,11 +10,14 @@ var World = function()
   this.mousedown = false;
 }
 
+var n_tmp;
+
 World.prototype.init = function() {
 
   var _this;
 
-  _this = this;
+  _this = this
+  n_tmp = undefined
 
   this.canvas = document.getElementById("game");
   this.canvas.width = document.documentElement.clientWidth;
@@ -28,35 +31,51 @@ World.prototype.init = function() {
     event.preventDefault();
   }, false);
 
-  var mouseUp   = function(e) { _this.mousedown = false; };
-  var mouseDown = function(e) { _this.mousedown = true; };
-  var mouseMove = function(e) {
-    if (_this.mousedown)
+  var mouseUp = function(e) {
+    var tmp = new Asteroid(
+        n_tmp.x
+      , n_tmp.y
+      , 15
+      , "#0f0"
+      )
+    var tmp_x = (n_tmp.x - n_tmp.xp)
+    var tmp_y = (n_tmp.y - n_tmp.yp)
+    var dist = Math.min(Math.sqrt(tmp_x * tmp_x + tmp_y * tmp_y), 50);
+    if (dist != 0)
     {
-      var tmp = new Asteroid(
-        e.clientX
-      , e.clientY
-      , Math.floor(Math.random() * 10) + 2
-      , "#ff0"
-      );
-      _this.entities.push(tmp);
+      tmp.vx = tmp_x / dist * (dist / 10)
+      tmp.vy = tmp_y / dist * (dist / 10)
+    }
+    _this.entities.push(tmp);
+    _this.mousedown = false
+    n_tmp = undefined 
+ };
+  var mouseDown = function(e) { 
+    _this.mousedown = true;
+    n_tmp = {
+      x : e.clientX,
+      y : e.clientY,
+      xp : undefined,
+      yp : undefined
+    }
+  };
+  var mouseMove = function(e) {
+    if (_this.mousedown && n_tmp)
+    {
+      n_tmp.xp = e.clientX
+      n_tmp.yp = e.clientY
     }
   }
   var touchMove = function(e) {
-    if (_this.mousedown)
+    if (_this.mousedown && n_tmp)
     {
-      var tmp = new Asteroid(
-        e.touches[i].pageX
-      , e.touches[i].pageY
-      , Math.floor(Math.random() * 10) + 2
-      , "#ff0"
-      );
-      _this.entities.push(tmp);
+      n_tmp.xp = e.clientX
+      n_tmp.yp = e.clientY
     }
   }
 
   // Generating planets
-  for (var i = 0; i < 5; i++)
+  for (var i = 0; i < 1; i++)
   {
     var tmp = new Planet(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
@@ -67,7 +86,7 @@ World.prototype.init = function() {
     this.entities.push(tmp);
   }
 
-  for (var i = 0; i < 5; i++)
+  for (var i = 0; i < 3; i++)
   {
     var tmp = new Planet(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
@@ -79,12 +98,12 @@ World.prototype.init = function() {
   }
 
   // Generating asteroids
-  for (var i = 0; i < 50; i++)
+  for (var i = 0; i < 300; i++)
   {
      var tmp = new Asteroid(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
       , Math.floor(Math.random() * this.canvas.height) % (this.canvas.height - 200) + 100
-      , Math.floor(Math.random() * 25) + 10
+      , 15
       , "#ff0"
     );
     this.entities.push(tmp);
@@ -107,6 +126,18 @@ World.prototype.loop = function() {
 
   this.context.fillStyle = "#000";
   this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+  if (n_tmp)
+  {
+    this.context.save()
+    this.context.strokeStyle = "rgb(0,0,255)"
+    this.context.beginPath()
+    this.context.moveTo(n_tmp.x, n_tmp.y)
+    this.context.lineTo(n_tmp.xp, n_tmp.yp)
+    this.context.stroke()
+    this.context.closePath()
+    this.context.restore()
+  }
 
   this.entities.forEach(function(elem, index) {
     if (elem != undefined)
