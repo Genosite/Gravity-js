@@ -98,7 +98,7 @@ World.prototype.init = function() {
   }
 
   // Generating asteroids
-  for (var i = 0; i < 300; i++)
+  for (var i = 0; i < 20; i++)
   {
      var tmp = new Asteroid(
         Math.floor(Math.random() * this.canvas.width) % (this.canvas.width - 200) + 100
