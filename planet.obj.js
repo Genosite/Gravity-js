@@ -9,3 +9,5 @@ for (var element in Entity.prototype ) {
 Planet.prototype.run = function() {
   return true;
 }
+Planet.prototype.draw = function() {
+}

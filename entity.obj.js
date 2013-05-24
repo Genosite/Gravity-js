@@ -3,6 +3,7 @@ var Entity =  function(x, y, m, color) {
   this.m = m;
   this.r = Math.abs(this.m) / 2;
   this.color = color;
+  this.life = 0;
   this.onclick = function() { };
 }
 

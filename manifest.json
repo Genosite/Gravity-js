@@ -1,0 +1,14 @@
+{
+  "name": "Catch the balls",
+  "version": "1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "videoCapture"
+  ],
+  "icons": {"128": "icon.png" }
+}
